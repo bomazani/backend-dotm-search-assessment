@@ -53,36 +53,31 @@ def find_dotm(path_to_search, text_to_find):
                 xml_files = list(
                     filter(lambda x: x.endswith('.xml'), z.namelist()))
                 # print(names)
-                print('---------------')
+                # print('---------------')
                 # print(xml_files)
                 for file in xml_files:
                     xml_count += 1
-                    # try:
+                    found_match = False
                     with z.open(file, "r") as xml:
-                        content = list(xml.read())
+                        content = xml.read()
+
                         open_count += 1
-                            # print('**** Next File ****')
-                            # print(content)
-                            # char_count = 0
-                            # i = 0
-                            # while i < len(content):
-                            #     if content[i] == '$':
-                            #         start = i - 40
-                            #         if start < 0:
-                            #             start = start + 40
-                            #         end = i + 40
-                            #         print(content[start:end])
-                            #         i +=i
                         for index, search_item in enumerate(content):
                             seperator = ''
                             if search_item == '$':
-                                print('Search_Item = ' + search_item)
-                                print('index = ' + str(index))
+                                found_match = True
+                                # print('Search_Item = ' + search_item)
+                                # print('index = ' + str(index))
                                 found_item = content[index-40:index+40]
                                 found_string = ''
                                 for i in found_item:
                                     found_string += i
-                                print('found_string = ' + str(found_string))
+                                print('Match found in file ' + str(fill_path))
+                                print('   ...' + found_string + '...')
+                        if found_match:
+                            match_count += 1
+                            print(' ')
+                
 
 
     # names = z.namelist()
@@ -91,14 +86,15 @@ def find_dotm(path_to_search, text_to_find):
     # read the z file line by line, and search for text_to_search
     # if you find a line containing the desired text, print it to console
     # update your match_count and search_count appropriately
-    print('file_count = ' + str(file_count))
-    print('search_count = ' + str(search_count))
-    print('found_count = ' + str(found_count))
-    print('match_count = ' + str(match_count))
-    print('dotm_count = ' + str(dotm_count))
+    # print('file_count = ' + str(file_count))
+    # print('search_count = ' + str(search_count))
+    # print('found_count = ' + str(found_count))
+    print('Total dotm files searched: ' + str(dotm_count))
+    print('Total dotm files matched: ' + str(match_count))
+
     # print('word_doc_count = ' + str(word_doc_count))
-    print('xml_count = ' + str(xml_count))
-    print('open_count = ' + str(open_count))
+    # print('xml_count = ' + str(xml_count))
+    # print('open_count = ' + str(open_count))
 
 
 def create_parser():
