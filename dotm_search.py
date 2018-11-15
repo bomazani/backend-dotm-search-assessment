@@ -15,6 +15,7 @@ import zipfile
 
 def find_dotm(path_to_search, text_to_find):
     """ iterate through directory, unzip dotm files & search for word/document.xml files """
+    print("Searching directory ./dotm_files for text '$' ...")
     dotm_count = 0
     match_count = 0
     dirs = os.listdir(path_to_search)
