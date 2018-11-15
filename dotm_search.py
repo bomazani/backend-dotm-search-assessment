@@ -14,7 +14,7 @@ import zipfile
 
 
 def find_dotm(path_to_search, text_to_find):
-    """ iterate through dotm files, looking for text """
+    """ iterate through directory, unzip dotm files & search for word/document.xml files """
     dotm_count = 0
     match_count = 0
     dirs = os.listdir(path_to_search)
@@ -32,6 +32,7 @@ def find_dotm(path_to_search, text_to_find):
     
 
 def search_for_string(content, file_path):
+    """ itterate through word/document.xml files, looking for text """
     for index, search_item in enumerate(content):
         if search_item == '$':
             print('Match found in file ' + str(file_path))
