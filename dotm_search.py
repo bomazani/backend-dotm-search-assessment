@@ -36,7 +36,7 @@ def find_dotm(path_to_search, text_to_find):
                         total_count += len(match_list)
                         print('Match found in file ' + str(file_path))
                         for m in match_list:
-                            print('   ...' + content[m-40:m+40] + '...')
+                            print('   ...' + content[m-40:m+40] + '....')
     print('Total dotm files searched: ' + str(dotm_count))
     print('Total dotm files matched: ' + str(match_count))
     print('Total dotm files : ' + str(total_count))
