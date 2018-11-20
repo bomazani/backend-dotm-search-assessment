@@ -11,13 +11,16 @@ import sys
 import os
 import argparse
 import zipfile
+from itertools import count
 
 
 def find_dotm(path_to_search, text_to_find):
     """ iterate through directory, unzip dotm files & search for word/document.xml files """
-    print("Searching directory ./dotm_files for text '$' ...")
+    print("Searching directory {} for text {} ...".format(
+        path_to_search, text_to_find))
     dotm_count = 0
     match_count = 0
+    total_count = 0
     dirs = os.listdir(path_to_search)
     for file in dirs:
         get_ext = os.path.splitext(file)
@@ -27,19 +30,28 @@ def find_dotm(path_to_search, text_to_find):
             with zipfile.ZipFile(file_path, "r") as unzipped:
                 with unzipped.open('word/document.xml', "r") as xml:
                     content = xml.read()
-                    match_count += search_for_string(content, file_path)            
+                    match_list = search_for_string(content, text_to_find)
+                    if match_list:
+                        match_count += 1
+                        total_count += len(match_list)
+                        print('Match found in file ' + str(file_path))
+                        for m in match_list:
+                            print('   ...' + content[m-40:m+40] + '...')
     print('Total dotm files searched: ' + str(dotm_count))
     print('Total dotm files matched: ' + str(match_count))
-    
+    print('Total dotm files : ' + str(total_count))
 
-def search_for_string(content, file_path):
-    """ itterate through word/document.xml files, looking for text """
-    for index, search_item in enumerate(content):
-        if search_item == '$':
-            print('Match found in file ' + str(file_path))
-            print('   ...' + content[index-40:index+40] + '...')
-            return 1
-    return 0
+
+def search_for_string(content, search_text):
+    results = []
+    start_pos = 0
+    while True:
+        index = content.find(search_text, start_pos)
+        if index < 0:
+            return results
+        results.append(index)
+        start_pos = index + 1
+
 
 def create_parser():
     parser = argparse.ArgumentParser()
@@ -59,6 +71,7 @@ def main():
     text_to_find = my_args.text
     path_to_search = my_args.dir
     find_dotm(path_to_search, text_to_find)
+
 
 if __name__ == '__main__':
     main()
